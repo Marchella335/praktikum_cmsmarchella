@@ -2,55 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Staf;
 use Illuminate\Http\Request;
+use App\Models\Staf;
 
 class StafController extends Controller
 {
-    public function index()
-    {
-        $data = Staf::all();
-        return view('staf.index', compact('data'));
-    }
+   // Menampilkan daftar seluruh staf
+   public function index()
+   {
+       $daftarStaf = Staf::semua();
+       return view('staf.index', compact('daftarStaf'));
+   }
 
-    public function create()
-    {
-        return view('staf.create');
-    }
+   // Menampilkan form tambah staf baru
+   public function create()
+   {
+       return view('staf.create');
+   }
 
-    public function store(Request $request)
-    {
-        Staf::saveToSession($request->only(['NAMA', 'DEPARTEMEN', 'NOMOR_TELEPON', 'GAJI']));
-        return redirect()->route('staf.index');
-    }
+   // Menyimpan data staf baru (simulasi, tidak tersimpan permanen)
+   public function store(Request $request)
+   {
+       // Logika penyimpanan tidak dilakukan karena data statis
+       return redirect()->route('staf.index')->with('success', 'Data staf berhasil ditambahkan (simulasi).');
+   }
 
-    public function show($id)
-    {
-        $staf = Staf::find($id);
-        return view('staf.show', compact('staf'));
-    }
+   // Menampilkan detail staf
+   public function show($id)
+   {
+       $staf = Staf::cari($id);
+       return view('staf.show', compact('staf'));
+   }
 
-    public function edit($id)
-    {
-        $staf = Staf::find($id);
-        return view('staf.edit', compact('staf'));
-    }
+   // Menampilkan form edit staf
+   public function edit($id)
+   {
+       $staf = Staf::cari($id);
+       return view('staf.edit', compact('staf'));
+   }
 
-    public function update(Request $request, $id)
-    {
-        Staf::updateSession($id, $request->only(['NAMA', 'DEPARTEMEN', 'NOMOR_TELEPON', 'GAJI']));
-        return redirect()->route('staf.index');
-    }
+   // Menyimpan perubahan data staf (simulasi)
+   public function update(Request $request, $id)
+   {
+       return redirect()->route('staf.index')->with('success', 'Data staf berhasil diperbarui (simulasi).');
+   }
 
-    public function destroy($id)
-    {
-        Staf::deleteFromSession($id);
-        return redirect()->route('staf.index');
-    }
-    public function confirmDelete($id)
-{
-    $staf = Staf::find($id);
-    return view('staf.delete', compact('staf'));
+   // Menghapus data staf (simulasi)
+   public function destroy($id)
+   {
+       return redirect()->route('staf.index')->with('success', 'Data staf berhasil dihapus (simulasi).');
+   }
 }
 
-}
+
